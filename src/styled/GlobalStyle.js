@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
 		color: #52b6ff;
 		text-decoration-line: underline;
 		cursor: pointer;
+		font-family: "Lexend Deca";
 	}
 
 	input {
@@ -44,10 +45,12 @@ const GlobalStyle = createGlobalStyle`
 		color: white;
 
 		cursor: pointer;
+		transition: all 0.5s;
+	
 	}
 
 	button:hover{
-		background: #11a6ff;
+		filter: brightness(1.15);
 		transition: all 0.5s;
 	}
 `;

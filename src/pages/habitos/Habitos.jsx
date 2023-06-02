@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import TrackIt from "../../assets/TrackIt.svg";
 import Sponge from "../../assets/sponge.svg";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function Habitos() {
 	return (
@@ -18,7 +20,23 @@ export default function Habitos() {
 					Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
 					começar a trackear!
 				</Message>
-				<Footer />
+				<Footer>
+					<FooterContent>
+						<a>Hábitos</a>
+						{/* <CircularProgressbar
+						text={`Hoje`}
+						styles={{
+							textSize: "18px",
+							pathTransitionDuration: 0.5,
+							pathColor: `#ffffff`,
+							textColor: "#ffffff",
+							trailColor: "#ffffff",
+							backgroundColor: "#52B6FF",
+						}}
+					/> */}
+						<a>Histórico</a>
+					</FooterContent>
+				</Footer>
 			</HabitosContainer>
 		</>
 	);
@@ -49,7 +67,7 @@ const MyHabits = styled.div`
 		font-size: 22.976px;
 		line-height: 29px;
 		color: #126ba5;
-		margin-right: 152px;
+		margin-right: 160px;
 	}
 
 	button {
@@ -63,10 +81,28 @@ const MyHabits = styled.div`
 const Footer = styled.footer`
 	width: 100%;
 	height: 70px;
+
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	background: #FFFFFF;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	background: #ffffff;
+`;
+
+const FooterContent = styled.div`
+	width: 400px;
+	padding: 36px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	a {
+		text-decoration: none;
+		font-size: 18px;
+	}
 `;
 
 const HabitosContainer = styled.div`
@@ -78,7 +114,7 @@ const HabitosContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 
-    background-color: #e5e5e5;
+	background-color: #e5e5e5;
 `;
 
 const Header = styled.header`
