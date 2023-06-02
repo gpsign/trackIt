@@ -1,13 +1,18 @@
 import Reset from "./styled/Reset";
 import GlobalStyle from "./styled/GlobalStyle";
-import Home from "./pages/home/Home";
+import Login from "./pages/home/Login";
+import SignUp from "./pages/home/SignUp";
+import Habitos from "./pages/habitos/Habitos";
 
 function App() {
 	return (
 		<>
 			<Reset />
 			<GlobalStyle />
-			<Home />
+
+			{/* <Login /> */}
+			{/* <SignUp /> */}
+			<Habitos />
 		</>
 	);
 }

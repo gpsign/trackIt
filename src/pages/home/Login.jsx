@@ -1,28 +1,33 @@
-import logo from "../../assets/logo.svg";
 import styled from "styled-components";
 import React from "react";
+import Logo from "../../assets/logo.svg";
 
-export default function Home() {
+export default function Login() {
 	return (
-		<HomeContainer>
-			<img src={logo} alt="logo" />
+		<LoginContainer>
+			<img src={Logo} alt="logo" />
 			<form>
 				<input type="email" placeholder="Email" />
-				<input type="password" placeholder="senha" />
+				<input type="password" placeholder="Senha" />
 				<button type="submit">Entrar</button>
 			</form>
-			<Cadastro>Não tem uma conta? Cadastre-se!</Cadastro>
-		</HomeContainer>
+			<a>Não tem uma conta? Cadastre-se!</a>
+		</LoginContainer>
 	);
 }
 
-const HomeContainer = styled.div`
+const LoginContainer = styled.div`
 	width: 100vw;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+
+	form {
+		display: flex;
+		flex-direction: column;
+	}
 
 	img {
 		margin-bottom: 32px;
@@ -35,10 +40,4 @@ const HomeContainer = styled.div`
 	button {
 		margin-bottom: 36px;
 	}
-`;
-
-const Cadastro = styled.a`
-	font-size: 13.976px;
-	line-height: 17px;
-	color: #52b6ff;
 `;
