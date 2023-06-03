@@ -4,6 +4,7 @@ const GlobalStyle = createGlobalStyle`
 	* {
 		font-family: "Lexend Deca";
 		box-sizing: border-box;
+		user-select: none;
 	}
 
 	a{
