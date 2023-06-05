@@ -263,7 +263,6 @@ const Description = styled.div`
 		font-style: normal;
 		font-weight: 400;
 		font-size: 19.976px;
-		line-height: 25px;
 
 		color: #666666;
 	}
@@ -273,7 +272,6 @@ const Description = styled.div`
 		font-style: normal;
 		font-weight: 400;
 		font-size: 12.976px;
-		line-height: 16px;
 
 		color: #666666;
 	}
