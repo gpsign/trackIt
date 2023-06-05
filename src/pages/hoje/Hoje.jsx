@@ -256,6 +256,7 @@ const HabitContainer = styled.div`
 const Description = styled.div`
 	display: flex;
 	flex-direction: column;
+	justify-content: space-evenly;
 
 	h1 {
 		font-family: "Lexend Deca";
