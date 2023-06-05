@@ -6,11 +6,13 @@ import { AppContext } from "../../Context/AppContext";
 import { useEffect } from "react";
 import axios from "axios";
 import { ThreeDots } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 
 export default function Habitos() {
 	const [show, setShow] = useState(false);
 	const { config } = useContext(AppContext);
 	const [habitsList, setHabitsList] = useState(undefined);
+	const navigate = useNavigate();
 
 	function updateHabits() {
 		axios
@@ -19,7 +21,10 @@ export default function Habitos() {
 				config
 			)
 			.then((resp) => setHabitsList(resp.data))
-			.catch(() => alert("Erro ao receber habitos"));
+			.catch(() => {
+				alert("Erro ao receber habitos");
+				navigate("/");
+			});
 	}
 
 	useEffect(() => {

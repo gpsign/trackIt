@@ -6,9 +6,19 @@ import { AppContext } from "../../Context/AppContext";
 import axios from "axios";
 import { useEffect } from "react";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 export default function Hoje() {
 	const [todayHabits, setTodayHabits] = useState([]);
+	const {
+		totalHabits,
+		setTotalHabits,
+		doneCount,
+		setDoneCount,
+		percentage,
+		setPercentage,
+	} = useContext(AppContext);
+	const navigate = useNavigate;
 	let todayObj = dayjs();
 	let day = "";
 
@@ -42,8 +52,25 @@ export default function Hoje() {
 				"https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today",
 				config
 			)
-			.then((resp) => setTodayHabits(resp.data))
-			.catch((resp) => alert("Erro"));
+			.then((resp) => {
+				let aux = resp.data;
+				setTodayHabits(resp.data);
+
+				setTotalHabits(aux.length);
+
+				let auxCount = 0;
+				aux.forEach((hab) => {
+					if (hab.done) {
+						auxCount++;
+					}
+				});
+				setDoneCount(auxCount);
+				setPercentage(((100 * auxCount) / aux.length).toFixed(0));
+			})
+			.catch((resp) => {
+				alert("Erro");
+				navigate("/");
+			});
 	}
 
 	const { config } = useContext(AppContext);
@@ -60,7 +87,13 @@ export default function Hoje() {
 						{day}, {todayObj.$D}/{todayObj.$M + 1}
 					</h1>
 					<h2>
-						<span className={"green"}>67% dos hábitos concluídos</span>
+						{doneCount ? (
+							<span className={"green"}>
+								{percentage}% dos hábitos concluídos
+							</span>
+						) : (
+							`Nenhum hábito concluído ainda`
+						)}
 					</h2>
 				</Today>
 				{todayHabits.map((hab) => {
@@ -130,16 +163,32 @@ const Today = styled.div`
 
 function Habit({ title, done, current, highest, id, updateHabits }) {
 	const { config } = useContext(AppContext);
-	const [color, setColor] = useState("");
+	const [todaySequence, setTodaySequence] = useState("");
+	const [highestSequence, setHighestSequence] = useState("");
+
+	function checkStreak(){
+		if (done) setTodaySequence("green");
+		else setTodaySequence("");
+
+		if (highest === current && current != 0) {
+			setHighestSequence("green");
+		}
+		else setHighestSequence("");
+	}
+
+	useEffect(() => {
+		checkStreak();
+	}, []);
 
 	return (
 		<HabitContainer>
 			<Description>
 				<h1>{title}</h1>
 				<p>
-					Sequência atual: <span className={color}>{current} dias </span>
+					Sequência atual:{" "}
+					<span className={todaySequence}>{current} dias </span>
 					<br />
-					Seu recorde: <span className={color}> {highest} dias </span>
+					Seu recorde: <span className={highestSequence}> {highest} dias </span>
 				</p>
 			</Description>
 			<Check
@@ -153,10 +202,16 @@ function Habit({ title, done, current, highest, id, updateHabits }) {
 							)
 							.then(() => {
 								updateHabits();
-								if (current >= highest && current > 0) setColor("green");
-								else setColor("");
+								setTodaySequence("green");
+
+								console.log(current + 1);
+								if (highest === current + 1 && current + 1 != 0) {
+									setHighestSequence("green");
+								}
 							})
-							.catch(() => alert("Erro"));
+							.catch(() => {
+								alert("Erro");
+							});
 					} else
 						axios
 							.post(
@@ -164,7 +219,12 @@ function Habit({ title, done, current, highest, id, updateHabits }) {
 								{},
 								config
 							)
-							.then(() => updateHabits())
+							.then(() => {
+								updateHabits();
+								setTodaySequence("");
+
+								setHighestSequence("");
+							})
 							.catch(() => alert("Erro"));
 				}}
 				checked={done}

@@ -21,6 +21,8 @@ function App() {
 	const [config, setConfig] = useState({});
 	const [createHabitDays, setCreateHabitDays] = useState([]);
 	const [totalHabits, setTotalHabits] = useState(0);
+	const [doneCount, setDoneCount] = useState(0);
+	const [percentage, setPercentage] = useState(0);
 
 	return (
 		<BrowserRouter>
@@ -46,6 +48,10 @@ function App() {
 					setCreateHabitDays,
 					totalHabits,
 					setTotalHabits,
+					doneCount,
+					setDoneCount,
+					percentage,
+					setPercentage,
 				}}
 			>
 				<Routes>
@@ -63,7 +69,7 @@ function App() {
 						<CircularProgressbar
 							minValue={0}
 							maxValue={totalHabits}
-							value={60}
+							value={doneCount}
 							background={"true"}
 							text={"Hoje"}
 							backgroundPadding={6}
