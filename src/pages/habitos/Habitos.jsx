@@ -42,7 +42,11 @@ export default function Habitos() {
 				<MyHabitsContainer>
 					<MyHabits>
 						<h1>Meus hábitos</h1>
-						<button data-test="habit-create-btn" onClick={() => setShow(true)}>
+						<button
+							disabled={loading}
+							data-test="habit-create-btn"
+							onClick={() => setShow(true)}
+						>
 							+
 						</button>
 					</MyHabits>
