@@ -217,6 +217,7 @@ function CreateHabit({ show, setShow, updateHabits }) {
 		<CreateHabitContainer data-test="habit-create-container" show={show}>
 			<HabitInputContainer>
 				<input
+					disabled={loading}
 					data-test="habit-name-input"
 					type="text"
 					placeholder="Novo hábito"
@@ -225,7 +226,7 @@ function CreateHabit({ show, setShow, updateHabits }) {
 				/>
 				<DaysContainer>
 					{weekDay.map((day, i) => {
-						return <Day key={i} name={day} active={true} index={i} />;
+						return <Day key={i} name={day} active={loading} index={i} />;
 					})}
 				</DaysContainer>
 			</HabitInputContainer>
