@@ -10,11 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 export default function Habitos() {
 	const [show, setShow] = useState(false);
-	const { config } = useContext(AppContext);
+	const { config, loading } = useContext(AppContext);
 	const [habitsList, setHabitsList] = useState(undefined);
 	const navigate = useNavigate();
 	const [showList, setShowList] = useState(false);
-	let updatedShowList = false;
 
 	function updateHabits() {
 		axios
