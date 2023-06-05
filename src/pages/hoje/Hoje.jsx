@@ -263,6 +263,7 @@ const Description = styled.div`
 		font-style: normal;
 		font-weight: 400;
 		font-size: 19.976px;
+		margin-bottom: 7px;
 
 		color: #666666;
 	}
