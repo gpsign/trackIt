@@ -226,7 +226,7 @@ function CreateHabit({ show, setShow, updateHabits }) {
 				/>
 				<DaysContainer>
 					{weekDay.map((day, i) => {
-						return <Day key={i} name={day} active={loading} index={i} />;
+						return <Day key={i} name={day} active={!loading} index={i} />;
 					})}
 				</DaysContainer>
 			</HabitInputContainer>
