@@ -31,8 +31,8 @@ function App() {
 
 			<Header>
 				<HeaderContent data-test="header">
-					<img data-test="avatar" src={TrackIt} />
-					<ProfilePic src={imgURL} />
+					<img src={TrackIt} />
+					<ProfilePic data-test="avatar" src={imgURL} />
 				</HeaderContent>
 			</Header>
 

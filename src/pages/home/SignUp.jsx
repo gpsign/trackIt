@@ -51,6 +51,7 @@ export default function SignUp() {
 				}}
 			>
 				<input
+					disabled={loading}
 					data-test="email-input"
 					type="email"
 					placeholder="Email"
@@ -58,6 +59,7 @@ export default function SignUp() {
 					required
 				/>
 				<input
+					disabled={loading}
 					data-test="password-input"
 					type="password"
 					placeholder="Senha"
@@ -65,6 +67,7 @@ export default function SignUp() {
 					required
 				/>
 				<input
+					disabled={loading}
 					data-test="user-name-input"
 					type="text"
 					placeholder="Nome"
@@ -72,6 +75,7 @@ export default function SignUp() {
 					required
 				/>
 				<input
+					disabled={loading}
 					data-test="user-image-input"
 					type="URL"
 					placeholder="Foto"

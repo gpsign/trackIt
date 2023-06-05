@@ -47,7 +47,6 @@ export default function Habitos() {
 						</button>
 					</MyHabits>
 					<CreateHabit
-						data-test="habit-create-container"
 						show={show}
 						setShow={setShow}
 						updateHabits={updateHabits}
@@ -215,7 +214,7 @@ function CreateHabit({ show, setShow, updateHabits }) {
 	}
 
 	return (
-		<CreateHabitContainer show={show}>
+		<CreateHabitContainer data-test="habit-create-container" show={show}>
 			<HabitInputContainer>
 				<input
 					data-test="habit-name-input"

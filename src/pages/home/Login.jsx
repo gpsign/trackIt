@@ -50,6 +50,7 @@ export default function Login() {
 			<img src={Logo} alt="logo" />
 			<form onSubmit={(e) => handleLogin(e)}>
 				<input
+					disabled={loading}
 					data-test="email-input"
 					type="email"
 					placeholder="Email"
@@ -57,6 +58,7 @@ export default function Login() {
 					required
 				/>
 				<input
+					disabled={loading}
 					data-test="password-input"
 					type="password"
 					placeholder="Senha"
