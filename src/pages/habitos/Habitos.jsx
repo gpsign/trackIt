@@ -42,9 +42,12 @@ export default function Habitos() {
 				<MyHabitsContainer>
 					<MyHabits>
 						<h1>Meus hábitos</h1>
-						<button onClick={() => setShow(true)}>+</button>
+						<button data-test="habit-create-btn" onClick={() => setShow(true)}>
+							+
+						</button>
 					</MyHabits>
 					<CreateHabit
+						data-test="habit-create-container"
 						show={show}
 						setShow={setShow}
 						updateHabits={updateHabits}
@@ -79,6 +82,7 @@ function Day({ name, selected, active, index }) {
 
 	return (
 		<WeekDay
+			data-test="habit-day"
 			selected={selectedState}
 			onClick={() => {
 				if (active) {
@@ -106,8 +110,8 @@ function Habit({ title, weekdays, id, updateHabits }) {
 	const { config } = useContext(AppContext);
 
 	return (
-		<HabitContainer>
-			<h1>{title}</h1>
+		<HabitContainer data-test="habit-container">
+			<h1 data-test="habit-name">{title}</h1>
 			<DaysContainer>
 				{weekDays.map((day, index) => {
 					return (
@@ -121,6 +125,7 @@ function Habit({ title, weekdays, id, updateHabits }) {
 				})}
 			</DaysContainer>
 			<button
+				data-test="habit-delete-btn"
 				onClick={() => {
 					if (confirm("Apagar habito?")) {
 						axios
@@ -213,6 +218,7 @@ function CreateHabit({ show, setShow, updateHabits }) {
 		<CreateHabitContainer show={show}>
 			<HabitInputContainer>
 				<input
+					data-test="habit-name-input"
 					type="text"
 					placeholder="Novo hábito"
 					onChange={(e) => setTitle(e.target.value)}
@@ -225,10 +231,19 @@ function CreateHabit({ show, setShow, updateHabits }) {
 				</DaysContainer>
 			</HabitInputContainer>
 			<ButtonContainer>
-				<CancelButton disabled={loading} onClick={() => setShow(false)}>
+				<CancelButton
+					data-test="habit-create-cancel-btn"
+					disabled={loading}
+					onClick={() => setShow(false)}
+				>
 					Cancelar
 				</CancelButton>
-				<SaveButton onClick={handleSubmit} disabled={loading} type="submit">
+				<SaveButton
+					data-test="habit-create-save-btn"
+					onClick={handleSubmit}
+					disabled={loading}
+					type="submit"
+				>
 					{loading ? <ThreeDots color="#ffffff" /> : "Salvar"}
 				</SaveButton>
 			</ButtonContainer>

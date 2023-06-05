@@ -83,10 +83,10 @@ export default function Hoje() {
 		<HojeContainer>
 			<HojeContent>
 				<Today>
-					<h1>
+					<h1 data-test="today">
 						{day}, {todayObj.$D}/{todayObj.$M + 1}
 					</h1>
-					<h2>
+					<h2 data-test="today-counter">
 						{doneCount ? (
 							<span className={"green"}>
 								{percentage}% dos hábitos concluídos
@@ -99,6 +99,7 @@ export default function Hoje() {
 				{todayHabits.map((hab) => {
 					return (
 						<Habit
+							data-test="today-habit-container"
 							key={hab.id}
 							title={hab.name}
 							done={hab.done}
@@ -180,17 +181,21 @@ function Habit({ title, done, current, highest, id, updateHabits }) {
 	}, []);
 
 	return (
-		<HabitContainer>
+		<HabitContainer data-test="today-habit-container">
 			<Description>
-				<h1>{title}</h1>
-				<p>
+				<h1 data-test="today-habit-name">{title}</h1>
+				<p data-test="today-habit-sequence">
 					Sequência atual:{" "}
 					<span className={todaySequence}>{current} dias </span>
+				</p>{" "}
+				<p data-test="today-habit-record">
+					{" "}
 					<br />
 					Seu recorde: <span className={highestSequence}> {highest} dias </span>
 				</p>
 			</Description>
 			<Check
+				data-test="today-habit-check-btn"
 				onClick={() => {
 					if (!done) {
 						axios
