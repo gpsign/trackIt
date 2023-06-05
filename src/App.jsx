@@ -13,7 +13,7 @@ import { AppContext } from "./Context/AppContext";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import Historico from "./pages/historico/Historico";
 
 function App() {
 	const [loading, setLoading] = useState(false);
@@ -30,8 +30,8 @@ function App() {
 			<GlobalStyle />
 
 			<Header>
-				<HeaderContent>
-					<img src={TrackIt} />
+				<HeaderContent data-test="header">
+					<img data-test="avatar" src={TrackIt} />
 					<ProfilePic src={imgURL} />
 				</HeaderContent>
 			</Header>
@@ -59,38 +59,45 @@ function App() {
 					<Route path="/cadastro" element={<SignUp />} />
 					<Route path="/hoje" element={<Hoje />} />
 					<Route path="/habitos" element={<Habitos />} />
+					<Route path="/historico" element={<Historico />} />
 				</Routes>
 			</AppContext.Provider>
 
 			<Footer>
-				<FooterContent>
-					<StyledLink to={"/habitos"}>Hábitos</StyledLink>
+				<FooterContent data-test="menu">
+					<StyledLink data-test="habit-link" to={"/habitos"}>
+						Hábitos
+					</StyledLink>
 					<ProgressBar>
-						<CircularProgressbar
-							minValue={0}
-							maxValue={totalHabits}
-							value={doneCount}
-							background={"true"}
-							text={"Hoje"}
-							backgroundPadding={6}
-							styles={{
-								path: {
-									stroke: "#ffffff",
-								},
-								trail: {
-									stroke: "#52B6FF",
-								},
-								text: {
-									fill: "#FFFFFF",
-									fontSize: "18px",
-								},
-								background: {
-									fill: "#52B6FF",
-								},
-							}}
-						/>
+						<Link data-test="today-link" to={"/hoje"}>
+							<CircularProgressbar
+								minValue={0}
+								maxValue={totalHabits}
+								value={doneCount}
+								background={"true"}
+								text={"Hoje"}
+								backgroundPadding={6}
+								styles={{
+									path: {
+										stroke: "#ffffff",
+									},
+									trail: {
+										stroke: "#52B6FF",
+									},
+									text: {
+										fill: "#FFFFFF",
+										fontSize: "18px",
+									},
+									background: {
+										fill: "#52B6FF",
+									},
+								}}
+							/>
+						</Link>
 					</ProgressBar>
-					<StyledLink>Histórico</StyledLink>
+					<StyledLink data-test="history-link" to={"/historico"}>
+						Histórico
+					</StyledLink>
 				</FooterContent>
 			</Footer>
 		</BrowserRouter>

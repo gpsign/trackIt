@@ -50,22 +50,26 @@ export default function Login() {
 			<img src={Logo} alt="logo" />
 			<form onSubmit={(e) => handleLogin(e)}>
 				<input
+					data-test="email-input"
 					type="email"
 					placeholder="Email"
 					onChange={(e) => setEmail(e.target.value)}
 					required
 				/>
 				<input
+					data-test="password-input"
 					type="password"
 					placeholder="Senha"
 					onChange={(e) => setPassword(e.target.value)}
 					required
 				/>
-				<button type="submit">
+				<button disabled={loading} data-test="login-btn" type="submit">
 					{loading ? <ThreeDots color="#ffffff" /> : "Entrar"}
 				</button>
 			</form>
-			<StyledLink to={"/cadastro"}>Não tem uma conta? Cadastre-se!</StyledLink>
+			<StyledLink data-test="signup-link" to={"/cadastro"}>
+				Não tem uma conta? Cadastre-se!
+			</StyledLink>
 		</LoginContainer>
 	);
 }

@@ -13,6 +13,8 @@ export default function Habitos() {
 	const { config } = useContext(AppContext);
 	const [habitsList, setHabitsList] = useState(undefined);
 	const navigate = useNavigate();
+	const [showList, setShowList] = useState(false);
+	let updatedShowList = false;
 
 	function updateHabits() {
 		axios
@@ -20,7 +22,10 @@ export default function Habitos() {
 				"https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
 				config
 			)
-			.then((resp) => setHabitsList(resp.data))
+			.then((resp) => {
+				setHabitsList(resp.data);
+				if (resp.data.length > 0) setShowList(true);
+			})
 			.catch(() => {
 				alert("Erro ao receber habitos");
 				navigate("/");
@@ -44,7 +49,7 @@ export default function Habitos() {
 						setShow={setShow}
 						updateHabits={updateHabits}
 					/>
-					{habitsList ? (
+					{showList ? (
 						habitsList.map((habit) => {
 							return (
 								<Habit

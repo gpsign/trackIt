@@ -51,34 +51,40 @@ export default function SignUp() {
 				}}
 			>
 				<input
+					data-test="email-input"
 					type="email"
 					placeholder="Email"
 					onChange={(e) => setEmail(e.target.value)}
 					required
 				/>
 				<input
+					data-test="password-input"
 					type="password"
 					placeholder="Senha"
 					onChange={(e) => setPassword(e.target.value)}
 					required
 				/>
 				<input
+					data-test="user-name-input"
 					type="text"
 					placeholder="Nome"
 					onChange={(e) => setName(e.target.value)}
 					required
 				/>
 				<input
+					data-test="user-image-input"
 					type="URL"
 					placeholder="Foto"
 					onChange={(e) => setPhoto(e.target.value)}
 					required
 				/>
-				<button disabled={loading} type="submit">
+				<button data-test="signup-btn" disabled={loading} type="submit">
 					{loading ? <ThreeDots color="#ffffff" /> : "Cadastrar"}
 				</button>
 			</form>
-			<StyledLink to={"/"}>Já tem uma conta? Faça login!</StyledLink>
+			<StyledLink data-test="login-link" to={"/"}>
+				Já tem uma conta? Faça login!
+			</StyledLink>
 		</SignUpContainer>
 	);
 }

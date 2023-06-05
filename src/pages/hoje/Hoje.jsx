@@ -166,14 +166,13 @@ function Habit({ title, done, current, highest, id, updateHabits }) {
 	const [todaySequence, setTodaySequence] = useState("");
 	const [highestSequence, setHighestSequence] = useState("");
 
-	function checkStreak(){
+	function checkStreak() {
 		if (done) setTodaySequence("green");
 		else setTodaySequence("");
 
 		if (highest === current && current != 0) {
 			setHighestSequence("green");
-		}
-		else setHighestSequence("");
+		} else setHighestSequence("");
 	}
 
 	useEffect(() => {
@@ -204,8 +203,9 @@ function Habit({ title, done, current, highest, id, updateHabits }) {
 								updateHabits();
 								setTodaySequence("green");
 
-								console.log(current + 1);
-								if (highest === current + 1 && current + 1 != 0) {
+								if (highest === 0) setHighestSequence("green");
+
+								if (highest === current + 1 && current != 0) {
 									setHighestSequence("green");
 								}
 							})
@@ -223,7 +223,7 @@ function Habit({ title, done, current, highest, id, updateHabits }) {
 								updateHabits();
 								setTodaySequence("");
 
-								setHighestSequence("");
+								if (highest > current || highest === 1) setHighestSequence("");
 							})
 							.catch(() => alert("Erro"));
 				}}
