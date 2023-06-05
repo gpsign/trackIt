@@ -1,19 +1,15 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+
+	body{
+		background-color: #e5e5e5;
+	}
+
 	* {
 		font-family: "Lexend Deca";
 		box-sizing: border-box;
 		user-select: none;
-	}
-
-	a{
-		font-size: 13.976px;
-		line-height: 17px;
-		color: #52b6ff;
-		text-decoration-line: underline;
-		cursor: pointer;
-		font-family: "Lexend Deca";
 	}
 
 	input {
@@ -51,9 +47,21 @@ const GlobalStyle = createGlobalStyle`
 	}
 
 	button:hover{
-		filter: brightness(1.15);
-		transition: all 0.5s;
+		filter: brightness(1.2);
+		transition: filter 0.5s;
 	}
+
+	button:active{
+		transform: translateY(1px);
+		transition: 0.1s;
+	}
+
+	button:disabled{
+		transform: none;
+		cursor: default;
+		filter: none;
+	}
+	
 `;
 
 export default GlobalStyle;

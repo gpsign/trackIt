@@ -1,80 +1,89 @@
 import styled from "styled-components";
-import TrackIt from "../../assets/TrackIt.svg";
-import Sponge from "../../assets/sponge.svg";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import Trashcan from "../../assets/trashcan.svg";
 import { useState } from "react";
+import { useContext } from "react";
+import { AppContext } from "../../Context/AppContext";
+import { useEffect } from "react";
+import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Habitos() {
+	const [show, setShow] = useState(false);
+	const { config } = useContext(AppContext);
+	const [habitsList, setHabitsList] = useState(undefined);
+
+	function updateHabits() {
+		axios
+			.get(
+				"https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+				config
+			)
+			.then((resp) => setHabitsList(resp.data))
+			.catch(() => alert("Erro ao receber habitos"));
+	}
+
+	useEffect(() => {
+		updateHabits();
+	}, []);
+
 	return (
 		<>
 			<HabitsContainer>
-				<Header>
-					<HeaderContent>
-						<img src={TrackIt} />
-						<ProfilePic src={Sponge} />
-					</HeaderContent>
-				</Header>
 				<MyHabitsContainer>
 					<MyHabits>
 						<h1>Meus hábitos</h1>
-						<button>+</button>
+						<button onClick={() => setShow(true)}>+</button>
 					</MyHabits>
-					<CreateHabit />
-					<Message>
-						Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para
-						começar a trackear!
-					</Message>
+					<CreateHabit
+						show={show}
+						setShow={setShow}
+						updateHabits={updateHabits}
+					/>
+					{habitsList ? (
+						habitsList.map((habit) => {
+							return (
+								<Habit
+									key={habit.id}
+									title={habit.name}
+									weekdays={habit.days}
+									id={habit.id}
+									updateHabits={updateHabits}
+								/>
+							);
+						})
+					) : (
+						<Message>
+							Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
+							para começar a trackear!
+						</Message>
+					)}
 				</MyHabitsContainer>
-				<Footer>
-					<FooterContent>
-						<a>Hábitos</a>
-						<ProgressBar>
-							<CircularProgressbar
-								minValue={0}
-								maxValue={100}
-								value={60}
-								background={"true"}
-								text={"Hoje"}
-								backgroundPadding={6}
-								styles={{
-									path: {
-										stroke: "#ffffff",
-									},
-									trail: {
-										stroke: "#52B6FF",
-									},
-									// Customize the text
-									text: {
-										// Text color
-										fill: "#FFFFFF",
-										// Text size
-										fontSize: "18px",
-									},
-									// Customize background - only used when the `background` prop is true
-									background: {
-										fill: "#52B6FF",
-									},
-								}}
-							/>
-						</ProgressBar>
-						<a>Histórico</a>
-					</FooterContent>
-				</Footer>
 			</HabitsContainer>
 		</>
 	);
 }
 
-function Day({ name }) {
-	const [selected, setSelected] = useState(false);
+function Day({ name, selected, active, index }) {
+	const [selectedState, setSelectedState] = useState(selected);
+	const { createHabitDays, setCreateHabitDays } = useContext(AppContext);
 
 	return (
 		<WeekDay
-			selected={selected}
+			selected={selectedState}
 			onClick={() => {
-				if (selected) setSelected(false);
-				else setSelected(true);
+				if (active) {
+					if (selectedState) {
+						let updatedDays = [...createHabitDays];
+						let i = updatedDays.indexOf(index);
+						updatedDays.splice(i, 1);
+						setCreateHabitDays(updatedDays);
+						setSelectedState(false);
+					} else {
+						let updatedDays = [...createHabitDays, index];
+						setCreateHabitDays(updatedDays);
+						setSelectedState(true);
+					}
+				}
 			}}
 		>
 			{name}
@@ -82,20 +91,136 @@ function Day({ name }) {
 	);
 }
 
-function CreateHabit() {
-	const weekDay = ["D", "S", "T", "Q", "Q", "S", "S"];
+function Habit({ title, weekdays, id, updateHabits }) {
+	const weekDays = ["D", "S", "T", "Q", "Q", "S", "S"];
+	const { config } = useContext(AppContext);
 
 	return (
-		<CreateHabitContainer>
-			<HabitInputContainer>
-				<input type="text" placeholder="Novo hábito" />
-				{weekDay.map((day) => {
-					return <Day name={day} />;
+		<HabitContainer>
+			<h1>{title}</h1>
+			<DaysContainer>
+				{weekDays.map((day, index) => {
+					return (
+						<Day
+							key={index}
+							name={day}
+							selected={weekdays.includes(index)}
+							active={false}
+						/>
+					);
 				})}
+			</DaysContainer>
+			<button
+				onClick={() => {
+					if (confirm("Apagar habito?")) {
+						axios
+							.delete(
+								`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,
+								config
+							)
+							.then(() => {
+								updateHabits();
+							});
+					}
+				}}
+			>
+				<img src={Trashcan} alt="trashcan" />
+			</button>
+		</HabitContainer>
+	);
+}
+
+const DaysContainer = styled.div`
+	display: flex;
+`;
+
+const HabitContainer = styled.div`
+	background-color: #ffffff;
+	border-radius: 5px;
+	margin-bottom: 30px;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	padding: 15px;
+
+	h1 {
+		margin-bottom: 8px;
+		font-family: "Lexend Deca";
+		font-size: 19.976px;
+		line-height: 25px;
+
+		color: #666666;
+	}
+
+	button {
+		img {
+			width: 15px;
+			height: 15px;
+		}
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		border-radius: 5px;
+		background-color: transparent;
+		width: 20px;
+		height: 20px;
+	}
+
+	button:hover {
+		background-color: rgba(255, 50, 50, 0.8);
+	}
+`;
+
+function CreateHabit({ show, setShow, updateHabits }) {
+	const weekDay = ["D", "S", "T", "Q", "Q", "S", "S"];
+	const [title, setTitle] = useState("");
+	const { createHabitDays, loading, setLoading, config } =
+		useContext(AppContext);
+
+	function handleSubmit() {
+		setLoading(true);
+		axios
+			.post(
+				"https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+				{
+					name: title,
+					days: createHabitDays,
+				},
+				config
+			)
+			.then(() => {
+				setLoading(false);
+				setShow(false);
+				updateHabits();
+			})
+			.catch((resp) => {
+				alert("Erro");
+				setLoading(false);
+			});
+	}
+
+	return (
+		<CreateHabitContainer show={show}>
+			<HabitInputContainer>
+				<input
+					type="text"
+					placeholder="Novo hábito"
+					onChange={(e) => setTitle(e.target.value)}
+					required
+				/>
+				<DaysContainer>
+					{weekDay.map((day, i) => {
+						return <Day key={i} name={day} active={true} index={i} />;
+					})}
+				</DaysContainer>
 			</HabitInputContainer>
 			<ButtonContainer>
-				<CancelButton>Cancelar</CancelButton>
-				<SaveButton>Salvar</SaveButton>
+				<CancelButton disabled={loading} onClick={() => setShow(false)}>
+					Cancelar
+				</CancelButton>
+				<SaveButton onClick={handleSubmit} disabled={loading} type="submit">
+					{loading ? <ThreeDots color="#ffffff" /> : "Salvar"}
+				</SaveButton>
 			</ButtonContainer>
 		</CreateHabitContainer>
 	);
@@ -112,7 +237,8 @@ const WeekDay = styled.div`
 	width: 30px;
 	height: 30px;
 	margin-right: 4px;
-	cursor: pointer;
+
+	${({ active }) => (active ? `cursor: pointer;` : ``)}
 
 	background: ${({ selected }) => (selected ? `#CFCFCF` : `#ffffff`)};
 	border: 1px solid #d5d5d5;
@@ -154,7 +280,7 @@ const SaveButton = styled.div`
 	}
 	&:active {
 		transform: translateY(1px);
-		transition: 0.2 ease-out;
+		transition: 0.1 ease-out;
 		filter: brightness(0.9);
 	}
 `;
@@ -176,11 +302,10 @@ const CancelButton = styled.button`
 	color: #52b6ff;
 
 	&:hover {
-		color: red;
+		color: rgb(255, 50, 50);
 	}
 	&:active {
-		transform: translateY(1px);
-		transition: 0.2 ease-out;
+		transition: 0.1 ease-out;
 		filter: brightness(0.5);
 	}
 `;
@@ -201,7 +326,7 @@ const CreateHabitContainer = styled.div`
 	padding: 18px;
 	margin-bottom: 30px;
 
-	display: flex;
+	display: ${({ show }) => (show ? `flex` : `none`)};
 	flex-wrap: wrap;
 
 	input {
@@ -210,27 +335,13 @@ const CreateHabitContainer = styled.div`
 	}
 `;
 
-const ProgressBar = styled.div`
-	width: 91px;
-	position: absolute;
-	left: 150px;
-	top: -25px;
-`;
-
 const MyHabitsContainer = styled.div`
 	width: 400px;
-	padding: 36px;
+	padding-right: 36px;
+	padding-left: 36px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-`;
-
-const HeaderContent = styled.div`
-	width: 400px;
-	padding: 36px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 `;
 
 const Message = styled.p`
@@ -269,34 +380,6 @@ const MyHabits = styled.div`
 	}
 `;
 
-const Footer = styled.footer`
-	width: 100%;
-	height: 70px;
-
-	position: fixed;
-	bottom: 0;
-	left: 0;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	background: #ffffff;
-`;
-
-const FooterContent = styled.div`
-	position: relative;
-	width: 400px;
-	padding: 36px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	a {
-		text-decoration: none;
-		font-size: 18px;
-	}
-`;
-
 const HabitsContainer = styled.div`
 	width: 100vw;
 	height: 100vh;
@@ -305,24 +388,4 @@ const HabitsContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-
-	background-color: #e5e5e5;
-`;
-
-const Header = styled.header`
-	width: 100%;
-	height: 70px;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background: #126ba5;
-	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
-const ProfilePic = styled.img`
-	width: 51px;
-	border-radius: 100%;
 `;
