@@ -256,7 +256,7 @@ const HabitContainer = styled.div`
 const Description = styled.div`
 	display: flex;
 	flex-direction: column;
-	height: fit-content;
+	height: 32px;
 
 	h1 {
 		font-family: "Lexend Deca";
