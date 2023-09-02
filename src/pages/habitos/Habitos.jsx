@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Habitos() {
 	const [show, setShow] = useState(false);
-	const { config, loading } = useContext(AppContext);
+	const { config, loading, setCreateHabitDays } = useContext(AppContext);
 	const [habitsList, setHabitsList] = useState(undefined);
 	const navigate = useNavigate();
 	const [showList, setShowList] = useState(false);
@@ -44,7 +44,10 @@ export default function Habitos() {
 						<button
 							disabled={loading}
 							data-test="habit-create-btn"
-							onClick={() => setShow(true)}
+							onClick={() => {
+								setShow(true);
+								setCreateHabitDays([]);
+							}}
 						>
 							+
 						</button>

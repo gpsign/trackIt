@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 import Logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -41,7 +40,7 @@ export default function Login() {
 			})
 			.catch(() => {
 				setLoading(false);
-				alert("Erro ao logar");
+				alert("Email ou senha incorreta");
 			});
 	}
 
