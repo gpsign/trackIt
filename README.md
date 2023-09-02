@@ -16,20 +16,20 @@ This is an web application that can make easier for the user to manage their hab
 
 <img src="./src/assets/trackit-signup-usage.gif" />
 
-<br> **Create you own account!**
+**Create you own account!**<br>
 
 ### Login
 
 <img src="./src/assets/trackit-login-usage.gif" />
 
-<br> **Login with the account you just created!**
+**Login with the account you just created!**<br>
 
 
 ### Create a habit
 
 <img src="./src/assets/trackit-create-usage.gif" />
 
-<br> **Name a habit, select the desired days of the week and click the button! Simple as that!**
+<br> **Name a habit, select the desired days of the week and click the button! Simple as that!**<br>
 
 
 ### Delete a habit
@@ -37,7 +37,7 @@ This is an web application that can make easier for the user to manage their hab
 
 <img src="./src/assets/trackit-delete-usage.gif" />
 
-<br> **Don't need to track a habit anymore? Just delete it!**
+**Don't need to track a habit anymore? Just delete it!**<br>
 
 ## Technologies
 The following tools and frameworks were used in the construction of the project:<br>
