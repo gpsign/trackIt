@@ -6,7 +6,6 @@ import SignUp from "./pages/home/SignUp";
 import Habitos from "./pages/habitos/Habitos";
 import Hoje from "./pages/hoje/Hoje";
 import TrackIt from "./assets/TrackIt.svg";
-import Sponge from "./assets/sponge.svg";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { AppContext } from "./Context/AppContext";
@@ -162,6 +161,7 @@ const Header = styled.header`
 const ProfilePic = styled.img`
 	width: 51px;
 	border-radius: 100%;
+	object-fit: cover;
 `;
 
 const StyledLink = styled(Link)`
